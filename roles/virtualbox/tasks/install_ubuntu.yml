@@ -1,0 +1,12 @@
+- name: download and install package for Ubuntu 18.04|18.10|19.04
+  when: >
+    ansible_distribution_version == "18.04" or
+    ansible_distribution_version == "18.10" or
+    ansible_distribution_version == "19.04"
+  apt:
+    deb: "{{ virtualbox_ubuntu_18_deb_url }}"
+
+- name: download and install package for Ubuntu 19.10
+  when: ansible_distribution_version == "19.10"
+  apt:
+    deb: "{{ virtualbox_ubuntu_19_deb_url }}"

@@ -1,0 +1,48 @@
+- hosts: all
+  remote_user: root
+  become: true
+
+  pre_tasks:
+    - register: python3_bin_path
+      stat:
+        path: "/usr/bin/python3"
+
+    - name: install python3
+      when: python3_bin_path.stat.exists == false
+      raw: apt update && apt install python3 -y
+
+  roles:
+    - name: apt
+      vars:
+        apt_update_cache: true
+        apt_upgrade: true
+        apt_install_packages: [git, build-essential]
+
+    - name: swapfile
+
+    - name: group
+      vars:
+        group_name: wheel
+        group_passwordless_sudo: true
+
+    - name: user
+      vars:
+        user_name: ansible
+        user_groups: [wheel]
+
+    - name: ufw
+      vars:
+        ufw_allow_ports: ["22"] # SSH
+
+    - name: ssh
+      vars:
+        ssh_disable_root_login: true
+        ssh_disable_password_login: true
+
+    - name: ubuntu
+      when: ansible_distribution == "Ubuntu"
+      vars:
+        ubuntu_remove_telemetry_packages: true
+        ubuntu_block_domains: true
+        ubuntu_disable_motd_news: true
+        ubuntu_disable_motd_sections: true

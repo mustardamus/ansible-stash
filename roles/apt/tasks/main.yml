@@ -1,0 +1,19 @@
+- name: update cache
+  when: apt_update_cache == true
+  apt:
+    update_cache: true
+
+- name: upgrade installed packages
+  when: apt_upgrade == true
+  apt:
+    upgrade: true
+
+- name: install packages
+  apt:
+    name: "{{ apt_install_packages }}"
+    state: present
+
+- name: remove packages
+  apt:
+    name: "{{ apt_remove_packages }}"
+    state: absent

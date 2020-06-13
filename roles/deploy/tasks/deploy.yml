@@ -1,0 +1,32 @@
+- name: install packages
+  apt:
+    name: rsync
+    state: present
+
+- set_fact:
+    deploy_dest_version_path: "{{ deploy_dest_path }}/releases/{{ deploy_version }}"
+    deploy_current_path: "{{ deploy_dest_path }}/current"
+
+- register: deploy_dest_version_path_stat
+  stat:
+    path: "{{ deploy_dest_version_path }}"
+
+- name: "abort playbook if version {{ deploy_version }} is already deployed"
+  when: deploy_dest_version_path_stat.stat.exists == true
+  fail:
+
+- name: create destination path
+  file:
+    path: "{{ deploy_dest_version_path }}"
+    state: directory
+
+- name: upload local source directory
+  synchronize:
+    src: "{{ deploy_src_path }}"
+    dest: "{{ deploy_dest_version_path }}"
+
+- name: symlink new deploy path
+  file:
+    src: "{{ deploy_dest_version_path }}/{{ deploy_src_path | basename }}"
+    dest: "{{ deploy_current_path }}"
+    state: link

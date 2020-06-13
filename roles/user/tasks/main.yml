@@ -1,0 +1,16 @@
+- name: create
+  user:
+    name: "{{ user_name }}"
+    shell: "{{ user_shell }}"
+
+- name: add to groups
+  loop: "{{ user_groups }}"
+  user:
+    name: "{{ user_name }}"
+    group: "{{ item }}"
+
+- name: add SSH authorization key
+  authorized_key:
+    user: "{{ user_name }}"
+    key: "{{ user_ssh_key }}"
+    state: present

@@ -1,0 +1,12 @@
+- hosts: servers
+  remote_user: ansible
+  become: true
+
+  roles:
+    - name: ufw
+      vars:
+        ufw_allow_ports: ["25"] # SMTP
+
+    - name: postfix
+      vars:
+        postfix_forward_emails: "{{ email_forwards }}"

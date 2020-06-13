@@ -1,0 +1,14 @@
+- name: install package
+  apt:
+    name: openssl
+    state: present
+
+- name: generate dhparam key
+  when: openssl_generate_dhparam
+  args:
+    creates: "{{ openssl_dhparam_path }}"
+  command: "openssl dhparam -dsaparam -out {{ openssl_dhparam_path }} 4096"
+
+- name: generate self signed certificate
+  when: openssl_generate_cert
+  include_tasks: generate_cert.yml

@@ -1,0 +1,22 @@
+ubuntu_remove_telemetry_packages: false
+ubuntu_telemetry_packages:
+  - ubuntu-report
+  - popularity-contest
+  - apport
+  - whoopsie
+
+ubuntu_block_domains: false
+ubuntu_blocked_domains:
+  - metrics.ubuntu.com
+  - www.metrics.ubuntu.com
+  - popcon.ubuntu.com
+  - www.popcon.ubuntu.com
+  - changelogs.ubuntu.com
+  - www.changelogs.ubuntu.com
+
+ubuntu_disable_motd_news: false
+ubuntu_disable_motd_sections: false
+ubuntu_disabled_motd_files:
+  - 00-header
+  - 80-livepatch
+  - 10-help-text

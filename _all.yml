@@ -1,0 +1,8 @@
+- import_playbook: _web.yml
+  when: web_enabled == true
+
+- import_playbook: _chat.yml
+  when: chat_enabled == true
+
+- import_playbook: _email.yml
+  when: email_enabled == true

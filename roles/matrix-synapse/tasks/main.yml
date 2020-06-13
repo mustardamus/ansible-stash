@@ -1,0 +1,32 @@
+- name: import key
+  apt_key:
+    url: https://packages.matrix.org/debian/matrix-org-archive-keyring.gpg
+    state: present
+
+- name: add repo
+  apt_repository:
+    repo: deb https://packages.matrix.org/debian/ {{ ansible_distribution_release | lower }} main
+    state: present
+    update_cache: true
+
+- name: install package
+  apt:
+    name: matrix-synapse-py3
+    state: present
+
+- name: set server name
+  notify: [restart matrix-synapse]
+  lineinfile:
+    path: "/etc/matrix-synapse/conf.d/server_name.yaml"
+    regexp: "^server_name:"
+    line: "server_name: {{ matrix_synapse_domain }}"
+
+- name: copy homeserver configuration
+  notify: [restart matrix-synapse]
+  template:
+    src: homeserver.yaml.j2
+    dest: "/etc/matrix-synapse/homeserver.yaml"
+# TODO
+# create users
+#
+# register_new_matrix_user -c /etc/matrix-synapse/homeserver.yaml http://localhost:8008

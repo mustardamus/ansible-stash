@@ -1,0 +1,7 @@
+- register: swapfile_stat
+  stat:
+    path: "{{ swapfile_path }}"
+
+- name: create and register swap
+  when: swapfile_stat.stat.exists == true
+  include_tasks: create.yml

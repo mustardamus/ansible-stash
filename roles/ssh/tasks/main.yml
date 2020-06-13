@@ -1,0 +1,17 @@
+- name: disable root login
+  when: ssh_disable_root_login
+  notify: [reload ssh]
+  lineinfile:
+    path: "/etc/ssh/sshd_config"
+    state: present
+    regexp: "^PermitRootLogin"
+    line: PermitRootLogin no
+
+- name: disable password login
+  when: ssh_disable_password_login
+  notify: [reload ssh]
+  lineinfile:
+    path: "/etc/ssh/sshd_config"
+    state: present
+    regexp: "^PasswordAuthentication"
+    line: PasswordAuthentication no

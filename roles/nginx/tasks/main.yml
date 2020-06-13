@@ -1,0 +1,20 @@
+- name: install package
+  apt:
+    name: nginx
+    state: present
+
+- name: remove default site
+  when: nginx_remove_default_site
+  include_tasks: remove_default_site.yml
+
+- name: create config for domain
+  notify: [restart nginx]
+  template:
+    src: site.conf.j2
+    dest: "/etc/nginx/sites-available/{{ nginx_domain }}"
+
+- name: create symlink to activate site
+  file:
+    src: "/etc/nginx/sites-available/{{ nginx_domain }}"
+    dest: "/etc/nginx/sites-enabled/{{ nginx_domain }}"
+    state: link

@@ -1,0 +1,38 @@
+- name: install package
+  apt:
+    name: certbot
+    state: present
+
+- service_facts:
+  register: certbot_services
+
+- set_fact:
+    certbot_service_nginx: "{{ certbot_services.ansible_facts.services['nginx'] }}"
+    certbot_cert_path: "/etc/letsencrypt/live/{{ certbot_domain }}"
+
+- name: stop Nginx if it is running
+  when: nginx is defined and nginx.state == "running"
+  service:
+    name: nginx
+    state: stopped
+
+- name: obtain certificate
+  args:
+    creates: "{{ certbot_cert_path }}"
+  command: >
+    certbot certonly \
+    --standalone --noninteractive --agree-tos \
+    --email {{ certbot_email }} -d {{ certbot_domain }}
+
+- name: start Nginx if it was running
+  when: nginx is defined and nginx.state == "running"
+  service:
+    name: nginx
+    state: restarted
+
+- name: add cron job for certificate renewal
+  cron:
+    name: certbot renew
+    job: certbot renew --quiet --no-self-upgrade
+    hour: "{{ certbot_cron_hour }}"
+    minute: "{{ certbot_cron_minute }}"

@@ -1,0 +1,6 @@
+riot_version: 1.6.1
+riot_path: /opt/riot
+riot_matrix_domain: matrix.example.com
+riot_server_name: example.com
+riot_brand: My Chat
+riot_welcome_user: "@hello:matrix.example.com"

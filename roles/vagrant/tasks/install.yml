@@ -1,0 +1,7 @@
+- name: download and install package
+  apt:
+    deb: "{{ vagrant_deb_url }}"
+
+- name: install plugins
+  loop: "{{ vagrant_plugins }}"
+  command: "vagrant plugin install {{ item }}"

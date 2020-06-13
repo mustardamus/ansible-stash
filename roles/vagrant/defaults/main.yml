@@ -1,0 +1,4 @@
+vagrant_bin_path: /usr/bin/vagrant
+vagrant_deb_url: https://releases.hashicorp.com/vagrant/2.2.7/vagrant_2.2.7_x86_64.deb
+vagrant_plugins:
+  - vagrant-disksize

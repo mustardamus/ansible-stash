@@ -1,0 +1,28 @@
+- name: remove telemetry packages
+  when: ubuntu_remove_telemetry_packages == true
+  apt:
+    name: "{{ ubuntu_telemetry_packages }}"
+    state: absent
+    purge: true
+
+- name: block domains
+  when: ubuntu_block_domains == true
+  loop: "{{ ubuntu_blocked_domains }}"
+  lineinfile:
+    path: "/etc/hosts"
+    regexp: "^127.0.0.1 {{ item }}"
+    line: "127.0.0.1 {{ item }}"
+
+- name: disable MOTD news
+  when: ubuntu_disable_motd_news == true
+  lineinfile:
+    path: "/etc/default/motd-news"
+    regexp: "^ENABLED=1"
+    line: ENABLED=0
+
+- name: disable MOTD sections
+  when: ubuntu_disable_motd_sections == true
+  loop: "{{ ubuntu_disabled_motd_files }}"
+  file:
+    path: "/etc/update-motd.d/{{ item }}"
+    mode: a-x

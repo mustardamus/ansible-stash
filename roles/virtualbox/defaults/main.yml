@@ -1,0 +1,5 @@
+virtualbox_bin_path: /usr/bin/virtualbox
+virtualbox_debian_10_deb_url: https://download.virtualbox.org/virtualbox/6.0.20/virtualbox-6.0_6.0.20-137117~Debian~buster_amd64.deb
+virtualbox_debian_9_deb_url: https://download.virtualbox.org/virtualbox/6.1.6/virtualbox-6.1_6.1.6-137129~Debian~stretch_amd64.deb
+virtualbox_ubuntu_18_deb_url: https://download.virtualbox.org/virtualbox/6.1.6/virtualbox-6.1_6.1.6-137129~Ubuntu~bionic_amd64.deb
+virtualbox_ubuntu_19_deb_url: https://download.virtualbox.org/virtualbox/6.1.6/virtualbox-6.1_6.1.6-137129~Ubuntu~eoan_amd64.deb

@@ -1,0 +1,19 @@
+- name: install package
+  apt:
+    name: ufw
+    state: present
+
+- name: deny all incoming traffic by default
+  ufw:
+    policy: deny
+    direction: incoming
+
+- name: open ports
+  loop: "{{ ufw_allow_ports }}"
+  ufw:
+    port: "{{ item }}"
+    rule: allow
+
+- name: enable
+  ufw:
+    state: enabled

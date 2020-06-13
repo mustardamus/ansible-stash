@@ -1,0 +1,7 @@
+- name: deploy
+  when: deploy_rollback == false
+  include_tasks: deploy.yml
+
+- name: rollback
+  when: deploy_rollback == true
+  include_tasks: rollback.yml

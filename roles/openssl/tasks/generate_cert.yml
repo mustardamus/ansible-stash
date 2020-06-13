@@ -1,0 +1,15 @@
+- name: create certificate path
+  file:
+    path: "{{ openssl_cert_path }}"
+    state: directory
+
+- name: create self signed certificate
+  args:
+    creates: "{{ openssl_cert_path }}/fullchain.pem"
+  command: >
+    openssl req \
+    -x509 -newkey rsa:2048 -days 365 -nodes \
+    -subj /CN={{ openssl_cert_domain }} \
+    -addext subjectAltName=DNS:{{ openssl_cert_domain }},IP:10.0.0.1 \
+    -keyout {{ openssl_cert_path }}/privkey.pem \
+    -out {{ openssl_cert_path }}/fullchain.pem

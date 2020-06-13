@@ -1,0 +1,42 @@
+- set_fact:
+    postfix_from_list: "{{ postfix_forward_emails | map(attribute='from') | list }}"
+
+- loop: "{{ postfix_from_list }}"
+  set_fact:
+    postfix_forward_domains: "{{ postfix_forward_domains | default('') }} {{ item.split('@') | last }}"
+
+- set_fact:
+    postfix_forward_domains: "{{ postfix_forward_domains | trim }}"
+
+- set_fact:
+    postfix_forward_domains: "{{ postfix_forward_domains.split(' ') | list | unique }}"
+
+- set_fact:
+    postfix_alias_domains: virtual_alias_domains = {{ postfix_forward_domains | join(' ') }}
+
+- name: install package
+  apt:
+    name: postfix
+    state: present
+
+- name: set alias domains in configuration
+  lineinfile:
+    path: "/etc/postfix/main.cf"
+    regex: "^virtual_alias_domains"
+    line: "{{ postfix_alias_domains }}"
+
+- name: include alias maps in configuration
+  notify: [reload postmap, reload postfix]
+  lineinfile:
+    path: "/etc/postfix/main.cf"
+    regex: "^virtual_alias_maps"
+    line: "virtual_alias_maps = hash:{{ postfix_forward_virtual_path }}"
+
+- name: write email forwards in virtual file
+  notify: [reload postmap, reload postfix]
+  loop: "{{ postfix_forward_emails }}"
+  lineinfile:
+    path: "{{ postfix_forward_virtual_path }}"
+    regex: "^{{ item.from }} {{ item.to }}"
+    line: "{{ item.from }} {{ item.to }}"
+    create: true

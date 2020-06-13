@@ -1,0 +1,9 @@
+- hosts: localhost
+  roles:
+    - name: apt
+      vars:
+        apt_update_cache: true
+        apt_install_packages: [sshpass]
+
+    - name: virtualbox
+    - name: vagrant

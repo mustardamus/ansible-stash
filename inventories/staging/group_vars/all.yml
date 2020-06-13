@@ -1,0 +1,44 @@
+# set this to `true` if you want to set up a webserver to host a website
+web_enabled: true
+
+# the domain of your website
+web_domain: example.com
+
+# if you deploy a website, it will be stored in /home/wesites
+web_user: websites
+
+# the path of your local static website to deployto the remote server
+deploy_local_path: /home/projects/nicely
+
+# you will receive LetsEncrypt emails to this address if a domains
+# certificate is about to expire
+admin_email: "admin@{{ web_domain }}"
+
+# set this to `true` if you want to set up a chat
+chat_enabled: true
+
+# the domain of the chat interface
+chat_domain: "chat.{{ web_domain }}"
+
+# the domain of the chat backend
+chat_matrix_domain: "matrix.{{ web_domain }}"
+
+# the maximum file size a user can upload
+chat_upload_size: 1024M
+
+# the title of your chat, will be displayed in the chat interface
+chat_title: My Chat
+
+# user that is suggested for joining participants
+chat_welcome_user: "@me:{{ chat_matrix_domain }}"
+
+# set this to `true` if you want to set up email forwarding
+email_enabled: true
+
+# a list of forwarding emails
+email_forwards:
+  - { from: "admin@{{ web_domain }}", to: example1@posteo.de }
+  - { from: "contact@{{ web_domain }}", to: example2@posteo.de }
+
+# the swap memory size of your server
+swapfile_size: 8G

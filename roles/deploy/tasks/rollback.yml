@@ -1,0 +1,39 @@
+- set_fact:
+    deploy_releases_path: "{{ deploy_dest_path }}/releases"
+    deploy_current_path: "{{ deploy_dest_path }}/current"
+
+- name: count releases
+  register: deploy_releases_count
+  shell: echo `ls -1 "{{ deploy_releases_path }}" | wc -l`
+
+- name: abort rollback because there is no previous release
+  when: deploy_releases_count.stdout|int <= 1
+  fail:
+
+- name: get previous release version
+  register: deploy_previous_version
+  shell: echo `ls -1 "{{ releases_path }}" | sort -r | head -n 2 | tail -n 1`
+
+- set_fact:
+    deploy_previous_release_path: >
+      {{ deploy_releases_path }}/{{ deploy_previous_version.stdout }}
+
+- name: get symlink for current release
+  register: deploy_current_release_path_stat
+  stat:
+    path: "{{ deploy_current_path }}"
+
+- set_fact:
+    deploy_current_release_version: >
+      {{ deploy_current_release_path_stat.stat.lnk_target.split('/')[0:-1] | last }}
+
+- name: "remove faulty release {{ deploy_current_release_version }}"
+  file:
+    path: "{{ deploy_releases_path }}/{{ deploy_current_release_version }}"
+    state: absent
+
+- name: "symlink previous release {{ deploy_previous_release_path | basename }}"
+  file:
+    src: "{{ deploy_previous_release_path}}/{{ deploy_src_path | basename }}"
+    dest: "{{ deploy_current_path }}"
+    state: link

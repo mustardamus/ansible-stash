@@ -1,0 +1,13 @@
+- name: create group
+  group:
+    name: "{{ group_name }}"
+    state: present
+
+- name: allow group to have passwordless sudo
+  when: group_passwordless_sudo
+  lineinfile:
+    path: "/etc/sudoers"
+    state: present
+    regexp: "^%{{ group_name }}"
+    line: "%{{ group_name }} ALL=(ALL) NOPASSWD: ALL"
+    validate: "/usr/sbin/visudo -cf %s"

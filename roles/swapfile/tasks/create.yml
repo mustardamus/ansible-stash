@@ -1,0 +1,26 @@
+- name: allocate space
+  command: "fallocate -l {{ swapfile_size }} {{ swapfile_path }}"
+
+- name: set permissions
+  file:
+    path: "{{ swapfile_path }}"
+    state: file
+    owner: root
+    group: root
+    mode: "0600"
+
+- name: create
+  command: "mkswap {{ swapfile_path }}"
+
+- name: enable
+  command: "swapon {{ swapfile_path }}"
+
+- name: add entry to /etc/fstab
+  mount:
+    src: "{{ swapfile_path }}"
+    name: none
+    fstype: swap
+    opts: sw,nofail
+    dump: "0"
+    passno: "0"
+    state: present

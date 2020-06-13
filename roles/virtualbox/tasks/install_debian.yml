@@ -1,0 +1,9 @@
+- name: download and install package for Debian 10
+  when: ansible_distribution_major_version == "10"
+  apt:
+    deb: "{{ virtualbox_debian_10_deb_url }}"
+
+- name: download and install package for Debian 9
+  when: ansible_distribution_major_version == "9"
+  apt:
+    deb: "{{ virtualbox_debian_9_deb_url }}"

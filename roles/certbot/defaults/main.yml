@@ -1,0 +1,4 @@
+certbot_domain: example.com
+certbot_email: certbot@example.com
+certbot_cron_hour: "5"
+certbot_cron_minute: "0"

@@ -1,0 +1,14 @@
+nginx_create_static_site: false
+nginx_create_reverse_proxy: false
+nginx_remove_default_site: false
+
+nginx_domain: example.com
+nginx_dhparam_path: /etc/ssl/ffdhe4096.pem
+
+nginx_static_site_path: /var/www/html
+
+nginx_reverse_proxy_location: /
+nginx_reverse_proxy_url: http://localhost:3000
+nginx_reverse_proxy_body_size: 100M
+
+nginx_site_additional_config: ""

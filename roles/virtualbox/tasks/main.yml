@@ -1,0 +1,15 @@
+- register: virtualbox_bin_path_stat
+  stat:
+    path: "{{ virtualbox_bin_path }}"
+
+- name: install for Debian
+  when: >
+    virtualbox_bin_path_stat.stat.exists == false and
+    ansible_distribution == "Debian"
+  include_tasks: install_debian.yml
+
+- name: install for Ubuntu
+  when: >
+    virtualbox_bin_path_stat.stat.exists == false and
+    ansible_distribution == "Ubuntu"
+  include_tasks: install_ubuntu.yml

@@ -1,0 +1,5 @@
+postfix_forward_virtual_path: /etc/postfix/virtual
+
+postfix_forward_emails:
+  - { from: contact@example1.com, to: contact@gmail.com }
+  - { from: "@example2.com", to: catch_all@posteo.de }

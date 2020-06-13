@@ -1,0 +1,4 @@
+deploy_version: 1.0.0
+deploy_src_path: /home/local/static_site
+deploy_dest_path: /home/remote/example.com
+deploy_rollback: false
