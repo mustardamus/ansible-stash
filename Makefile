@@ -31,9 +31,7 @@ ifeq ($(env), staging)
 	ssh-keygen -f ~/.ssh/known_hosts -R [127.0.0.1]:22522
 	vagrant up
 else ifeq ($(env), production)
-	ANSIBLE_HOST_KEY_CHECKING=false
-	ssh-keyscan -H $(PRODUCTION_SERVER_IP) >> ~/.ssh/known_hosts
-	ansible-playbook --ask-pass -i inventories/$(env)/hosts.ini _init.yml
+	bash init_production.sh
 endif
 
 ssh: check_env

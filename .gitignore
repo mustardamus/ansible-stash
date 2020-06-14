@@ -1,4 +1,4 @@
 .vagrant
 *console.log
 
-inventories/production/group_vars/all.yml
+inventories/production

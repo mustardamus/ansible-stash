@@ -6,7 +6,7 @@
 - name: upgrade installed packages
   when: apt_upgrade == true
   apt:
-    upgrade: true
+    upgrade: dist
 
 - name: install packages
   apt:
