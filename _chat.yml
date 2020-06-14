@@ -10,7 +10,7 @@
     riot_server_name: "{{ chat_title }}"
     riot_matrix_domain: "{{ matrix_synapse_domain }}"
     riot_brand: "{{ chat_title }}"
-    riot_welcome_user: "{{ chat_welcome_user }}"
+    riot_welcome_user: "@{{ chat_welcome_user }}:{{ chat_matrix_domain }}"
 
   roles:
     - name: openssl

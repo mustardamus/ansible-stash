@@ -1,38 +1,23 @@
-# ansible_trunk
+# ansible-stash
 
-## Install Ansible and dependencies
+This is a collection of [Ansible](https://www.ansible.com/) configurations,
+[Makefile](https://www.gnu.org/software/make/manual/make.html) and
+[Bash](https://www.gnu.org/software/bash/) scripts to make it ridiculously easy
+to set up your web-presence in a reproducable and extendable manner.
 
-`make install`
+It includes setting up a secure base for a server, a website with deploy and
+rollback functionality, a secure chat and email forwarding.
 
-This will first install Ansible on your machine by runnning
-`ansible_install.sh`. It works for Debian and Ubuntu.
+All can be tested before going live with a local staging server running
+[Ubuntu](https://ubuntu.com/), provided by
+[VirtualBox](https://www.virtualbox.org/) and
+[Vagrant](https://www.vagrantup.com/).
 
-After that, the Ansible playbook `dependencies_install.yml` will be executed.
-It installs VirtualBox and Vagrant.
+## Installation
 
-## Create a local staging server
-
-`make staging_init`
-
-This will download and start a virtual machine that is defined in `Vagrantfile`.
-The playbook `initial_server_setup.yml` is executed when provisioning the VM. It
-makes the following changes:
-
-- Installs `python3`, needed by Ansible
-- Update `apt` cache and upgrade installed packages
-- Creates a swapfile
-- Creates a `wheel` group with passwordless sudo configuration
-- Creates a `ansible` user in the `wheel` group, add local `~/.ssh/id_rsa.pub` SSH key for authorization
-- Enables UFW and opens SSH port
-- Disable SSH root and password login
-- If on Ubuntu, disable telemetry, block domains, disable MOTD news, disable MOTD sections
-
-It will also remove previous entries of `127.0.0.1:22522` from
-`~/.ssh/known_hosts` to avoid conflicts.
-
-## SSH into staging server
-
-`make staging_ssh`
+```bash
+make install
+```
 
 ## Conventions
 
