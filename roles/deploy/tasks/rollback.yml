@@ -34,6 +34,6 @@
 
 - name: "symlink previous release {{ deploy_previous_release_path | basename }}"
   file:
-    src: "{{ deploy_previous_release_path}}/{{ deploy_src_path | basename }}"
+    src: "{{ deploy_previous_release_path | trim }}/{{ deploy_src_path | basename }}"
     dest: "{{ deploy_current_path }}"
     state: link
