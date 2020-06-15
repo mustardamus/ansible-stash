@@ -7,11 +7,13 @@
   register: certbot_services
 
 - set_fact:
-    certbot_service_nginx: "{{ certbot_services.ansible_facts.services['nginx'] }}"
+    certbot_services: "{{ certbot_services.ansible_facts.services }}"
     certbot_cert_path: "/etc/letsencrypt/live/{{ certbot_domain }}"
 
 - name: stop Nginx if it is running
-  when: nginx is defined and nginx.state == "running"
+  when: >
+    certbot_services.nginx is defined and
+    certbot_services.nginx.state == "running"
   service:
     name: nginx
     state: stopped
@@ -25,7 +27,9 @@
     --email {{ certbot_email }} -d {{ certbot_domain }}
 
 - name: start Nginx if it was running
-  when: nginx is defined and nginx.state == "running"
+  when: >
+    certbot_services.nginx is defined and
+    certbot_services.nginx.state == "running"
   service:
     name: nginx
     state: restarted

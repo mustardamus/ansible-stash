@@ -7,10 +7,15 @@
     nginx_domain: "{{ web_domain }}"
     certbot_email: "{{ admin_email }}"
     deploy_src_path: "{{ deploy_local_path }}"
-    deploy_dest_path: /home/{{ user_name }}/{{ nginx_domain }}
+    deploy_dest_path: "/home/{{ user_name }}/{{ nginx_domain }}"
 
   roles:
     - name: user
+
+    - name: deploy
+      vars:
+        deploy_version: "{{ version }}" # `version` passed via commandline
+        deploy_rollback: "{{ rollback | default(false) | bool }}" # `rollback` passed via commandline
 
     - name: openssl
       when: env == "staging"
@@ -22,7 +27,12 @@
     - name: openssl
       when: env == "production"
       vars:
+        openssl_generate_cert: false
         openssl_generate_dhparam: true
+
+    - name: ufw
+      vars:
+        ufw_allow_ports: ["80", "443"] # HTTP, HTTPS
 
     - name: certbot
       when: env == "production"
@@ -34,8 +44,3 @@
         nginx_create_static_site: true
         nginx_remove_default_site: true
         nginx_static_site_path: "{{ deploy_dest_path }}/current"
-
-    - name: deploy
-      vars:
-        deploy_version: "{{ version }}" # `version` passed via commandline
-        deploy_rollback: "{{ rollback | default(false) | bool }}" # `rollback` passed via commandline

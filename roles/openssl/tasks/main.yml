@@ -4,11 +4,11 @@
     state: present
 
 - name: generate dhparam key
-  when: openssl_generate_dhparam
+  when: openssl_generate_dhparam == true
   args:
     creates: "{{ openssl_dhparam_path }}"
   command: "openssl dhparam -dsaparam -out {{ openssl_dhparam_path }} 4096"
 
 - name: generate self signed certificate
-  when: openssl_generate_cert
+  when: openssl_generate_cert == true
   include_tasks: generate_cert.yml

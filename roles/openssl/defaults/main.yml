@@ -1,5 +1,5 @@
 openssl_generate_cert: false
 openssl_generate_echd_curve: false
 openssl_cert_domain: example.com
-openssl_cert_path: /etc/letsencrypt/live/{{openssl_cert_domain}}
-openssl_dhparam_path: /etc/ssl/ffdhe4096.pem
+openssl_cert_path: "/etc/letsencrypt/live/{{ openssl_cert_domain }}"
+openssl_dhparam_path: "/etc/ssl/ffdhe4096.pem"

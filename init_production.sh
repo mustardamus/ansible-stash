@@ -3,6 +3,7 @@
 HOSTS_PATH=inventories/production/hosts.ini
 
 if [ -d "inventories/production" ]; then
+  # TODO check if there is still "example.com" in the vars and exit
   PRODUCTION_SERVER_IP=`awk -F= '{ print $2 }' $HOSTS_PATH | xargs`
   ANSIBLE_HOST_KEY_CHECKING=false
 
@@ -18,5 +19,5 @@ else
   echo "[servers]
 server1 ansible_host=$PRODUCTION_SERVER_IP" > $HOSTS_PATH
 
-  echo "Edit the variables in 'inventories/production/group_vars/all.yml' and re-run 'make init env=production'"
+  echo "Edit the variables in 'inventories/production/group_vars/all.yml' and re-run the command."
 fi

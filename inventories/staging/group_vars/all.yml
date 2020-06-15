@@ -1,6 +1,3 @@
-# set this to `true` if you want to set up a webserver to host a website
-web_enabled: true
-
 # the domain of your website
 web_domain: example.com
 
@@ -13,9 +10,6 @@ deploy_local_path: /home/projects/nicely
 # you will receive LetsEncrypt emails to this address if a domains
 # certificate is about to expire
 admin_email: "admin@{{ web_domain }}"
-
-# set this to `true` if you want to set up a chat
-chat_enabled: true
 
 # the domain of the chat interface
 chat_domain: "chat.{{ web_domain }}"
@@ -30,10 +24,7 @@ chat_upload_size: 1024M
 chat_title: My Chat
 
 # user that is suggested for joining participants
-chat_welcome_user: "@me:{{ chat_matrix_domain }}"
-
-# set this to `true` if you want to set up email forwarding
-email_enabled: true
+chat_welcome_user: "me"
 
 # a list of forwarding emails
 email_forwards:

@@ -12,7 +12,7 @@
 
 - name: get previous release version
   register: deploy_previous_version
-  shell: echo `ls -1 "{{ releases_path }}" | sort -r | head -n 2 | tail -n 1`
+  shell: echo `ls -1 "{{ deploy_releases_path }}" | sort -r | head -n 2 | tail -n 1`
 
 - set_fact:
     deploy_previous_release_path: >
