@@ -1,4 +1,11 @@
+# the domain where the server is reachable
 matrix_synapse_domain: matrix.example.com
+
+# the maximum file size for uploads
 matrix_synapse_max_upload_size: 100M
+
+# ´true´ to allow registrations by users
 matrix_synapse_enable_registration: false
+
+# the shared secret, everybody who knows that can register even if registration is turned off
 matrix_synapse_registration_shared_secret: "{{ lookup('password', '/dev/null length=16 chars=ascii_letters') }}"

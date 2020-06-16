@@ -1,4 +1,15 @@
+# references:
+# - https://letsencrypt.org/
+# - https://certbot.eff.org/
+
+# the domain to get a LetsEncrypt certificate for
 certbot_domain: example.com
+
+# the email for reminder emails
 certbot_email: certbot@example.com
+
+# cronjob hour at which it should be checked if certificate must be renewed
 certbot_cron_hour: "5"
+
+# cronjob minute
 certbot_cron_minute: "0"

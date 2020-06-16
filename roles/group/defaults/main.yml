@@ -1,2 +1,5 @@
+# the name of the group to be created
 group_name: group
+
+# `true` if the group has the ability to do `sudo` without a password
 group_passwordless_sudo: false

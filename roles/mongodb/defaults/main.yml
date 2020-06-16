@@ -1,3 +1,12 @@
+# references:
+# - https://docs.mongodb.com/manual/tutorial/install-mongodb-on-debian/
+# - https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
+
+# the version to be installed
 mongodb_version: "4.2"
+
+# the deb repo to be used on Debian systems
 mongodb_repo_debian: "deb http://repo.mongodb.org/apt/debian {{ ansible_distribution_release | lower }}/mongodb-org/{{ mongodb_version }} main"
+
+# the db repo to be used on Ubuntu system
 mongodb_repo_ubuntu: "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu {{ ansible_distribution_release | lower }}/mongodb-org/{{ mongodb_version }} multiverse"

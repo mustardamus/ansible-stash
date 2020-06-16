@@ -1,4 +1,11 @@
+# `true` to update the cache ala `apt update`
 apt_update_cache: false
+
+# `true` to upgrade the installed packages ala `apt upgrade`
 apt_upgrade: false
+
+# a list of package names to be installed
 apt_install_packages: []
+
+# a list of package names to be removed
 apt_remove_packages: []

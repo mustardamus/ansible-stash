@@ -1,4 +1,13 @@
+# the version under which the website/app should be deployed, should be semver
 deploy_version: 1.0.0
+
+# the local path of the files/folders to be deployed
 deploy_src_path: /home/local/static_site
+
+# the remote path to where the files/folders should be deployed
+# the current version will live under `/home/remote/example.com/current`
+# the release(s) will live under `home/remote/example.com/releases/1.0.0`
 deploy_dest_path: /home/remote/example.com
+
+# `true` to do a rollback to a previous version
 deploy_rollback: false
