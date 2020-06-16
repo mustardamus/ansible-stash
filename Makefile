@@ -2,7 +2,7 @@ env=staging
 PRODUCTION_SERVER_IP=`awk -F= '{ print $$2 }' inventories/production/hosts.ini | xargs`
 
 install:
-	bash ansible_install.sh
+	bash install_ansible.sh
 	sudo ansible-playbook -i inventories/localhost/hosts.ini _devenv.yml
 
 staging_up:

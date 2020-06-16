@@ -1,0 +1,3 @@
+mongodb_version: "4.2"
+mongodb_repo_debian: "deb http://repo.mongodb.org/apt/debian {{ ansible_distribution_release | lower }}/mongodb-org/{{ mongodb_version }} main"
+mongodb_repo_ubuntu: "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu {{ ansible_distribution_release | lower }}/mongodb-org/{{ mongodb_version }} multiverse"
