@@ -3,17 +3,17 @@
     url: "https://www.mongodb.org/static/pgp/server-{{ mongodb_version }}.asc"
     state: present
 
-- name: add Debian repo
-  when: ansible_distribution == "Debian"
-  apt_repository:
-    repo: "{{ mongodb_repo_debian }}"
-    state: present
-    update_cache: true
+- when: ansible_distribution == "Debian"
+  set_fact:
+    mongodb_repo: "{{ mongodb_repo_debian }}"
 
-- name: add Ubuntu repo
-  when: ansible_distribution == "Ubuntu"
+- when: ansible_distribution == "Ubuntu"
+  set_fact:
+    mongodb_repo: "{{ mongodb_repo_ubuntu }}"
+
+- name: add repo
   apt_repository:
-    repo: "{{ mongodb_repo_ubuntu }}"
+    repo: "{{ mongodb_repo }}"
     state: present
     update_cache: true
 
