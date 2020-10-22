@@ -15,6 +15,7 @@
 
 - name: disable MOTD news
   when: ubuntu_disable_motd_news == true
+  ignore_errors: true # older ubuntu releases do not have the motd-news file
   lineinfile:
     path: "/etc/default/motd-news"
     regexp: "^ENABLED=1"
@@ -23,6 +24,7 @@
 - name: disable MOTD sections
   when: ubuntu_disable_motd_sections == true
   loop: "{{ ubuntu_disabled_motd_files }}"
+  ignore_errors: true # in case the motd file does not exist
   file:
     path: "/etc/update-motd.d/{{ item }}"
     mode: a-x
