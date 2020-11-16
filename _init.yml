@@ -1,5 +1,5 @@
 - hosts: all
-  remote_user: root
+  remote_user: root # set to "ubuntu" if using with Rasperry Pi
   become: true
 
   pre_tasks:
@@ -37,7 +37,7 @@
     - name: ssh
       vars:
         ssh_disable_root_login: true
-        ssh_disable_password_login: true
+        ssh_disable_password_login: true # comment out if using Raspberry Pi with a monitor and keyboard
 
     - name: ubuntu
       when: ansible_distribution == "Ubuntu"
