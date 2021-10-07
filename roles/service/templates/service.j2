@@ -1,0 +1,14 @@
+[Unit]
+Description={{ service_description }}
+After=network.target
+
+[Service]
+Type=simple
+ExecStart={{ service_exec_start }}
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s QUIT $MAINPID
+WorkingDirectory={{ service_working_directory }}
+User={{ service_user }}
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,64 @@
+- hosts: servers
+  remote_user: ansible
+  become: true
+
+  vars:
+    user_name: "{{ web_user }}"
+    nginx_domain: "{{ web_domain }}"
+    certbot_email: "{{ admin_email }}"
+    deploy_src_path: "{{ deploy_local_path }}"
+    deploy_dest_path: "/home/{{ user_name }}/{{ nginx_domain }}"
+
+  roles:
+    - name: user
+
+    - name: deploy
+      vars:
+        deploy_version: "{{ version }}" # `version` passed via commandline
+        deploy_rollback: "{{ rollback | default(false) | bool }}" # `rollback` passed via commandline
+
+    - name: openssl
+      when: env == "staging"
+      vars:
+        openssl_generate_cert: true
+        openssl_generate_dhparam: true
+        openssl_cert_domain: "{{ nginx_domain }}"
+
+    - name: openssl
+      when: env == "production"
+      vars:
+        openssl_generate_cert: false
+        openssl_generate_dhparam: true
+
+    - name: ufw
+      vars:
+        ufw_allow_ports: ["80", "443"] # HTTP, HTTPS
+
+    - name: certbot
+      when: env == "production"
+      vars:
+        certbot_domain: "{{ nginx_domain }}"
+
+    - name: nginx
+      vars:
+        nginx_create_reverse_proxy: true
+        nginx_reverse_proxy_location: /
+        nginx_reverse_proxy_url: http://localhost:3335
+
+    - name: service
+      vars:
+        service_enabled: true
+        service_restarted: true
+        service_name: darfichheuteraus
+        service_description: "Darf ich heute raus?"
+        service_exec_start: "/home/websites/darfichheuteraus.de/current/dihr"
+        service_working_directory: "/home/websites/darfichheuteraus.de/current"
+        service_user: "{{ user_name }}"
+
+  tasks:
+    - name: ensure current data by restarting the service (TODO do in code)
+      ansible.builtin.cron:
+        name: restart dihr
+        minute: "30"
+        job: "sudo service darfichheuteraus restart"
+        user: ansible

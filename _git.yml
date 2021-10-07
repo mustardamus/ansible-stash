@@ -1,0 +1,58 @@
+- hosts: servers
+  remote_user: ansible
+  become: true
+
+  vars:
+    gogs_domain: gogs.mustardamus.com
+
+  roles:
+    - gogs
+
+    # - name: openssl
+    #   when: env == "production"
+    #   vars:
+    #     openssl_generate_dhparam: true
+
+    # - name: certbot
+    #   when: env == "production"
+    #   vars:
+    #     certbot_domain: "{{ matrix_synapse_domain }}"
+
+    # - name: certbot
+    #   when: env == "production"
+    #   vars:
+    #     certbot_domain: "{{ riot_domain }}"
+
+    - name: openssl
+      when: env == "staging"
+      vars:
+        openssl_generate_cert: true
+        openssl_generate_dhparam: true
+        openssl_cert_domain: "{{ gogs_domain }}"
+
+    - name: openssl
+      when: env == "production"
+      vars:
+        openssl_generate_cert: false
+        openssl_generate_dhparam: true
+
+    - name: nginx
+      vars:
+        nginx_create_reverse_proxy: true
+        nginx_reverse_proxy_location: /
+        nginx_reverse_proxy_url: http://localhost:3000
+        nginx_reverse_proxy_body_size: 1024M
+        nginx_domain: "{{ gogs_domain }}"
+        nginx_remove_default_site: true
+
+    ## If you want to use federation, uncomment:
+    # nginx_site_additional_config: >
+    #   server {
+    #     listen 8448 ssl default_server;
+    #     listen [::]:8448 ssl default_server;
+    #     server_name mustardamus.com;
+    #     location / {
+    #       proxy_pass http://localhost:8008;
+    #       proxy_set_header X-Forwarded-For $remote_addr;
+    #     }
+    #   }

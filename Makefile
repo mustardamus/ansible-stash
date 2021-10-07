@@ -53,3 +53,13 @@ email: check_env
 
 chat: check_env
 	ansible-playbook -i inventories/$(env)/hosts.ini -e env=$(env) _chat.yml
+
+git: check_env
+	ansible-playbook -i inventories/$(env)/hosts.ini -e env=$(env) _git.yml
+
+dihr: check_env
+ifdef version
+	ansible-playbook -i inventories/$(env)/hosts.ini -e env=$(env) -e version=$(version) _darfichheuteraus.yml
+else
+	$(error "version" variable must be set)
+endif

@@ -1,0 +1,6 @@
+element_version: 1.9.0
+element_path: /opt/element
+element_matrix_domain: matrix.example.com
+element_server_name: example.com
+element_brand: My Chat
+element_welcome_user: "@hello:matrix.example.com"

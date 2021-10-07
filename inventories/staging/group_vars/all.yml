@@ -1,11 +1,11 @@
 # the domain of your website
-web_domain: example.com
+web_domain: darfichheuteraus.de
 
 # if you deploy a website, it will be stored in /home/wesites
 web_user: websites
 
 # the path of your local static website to deployto the remote server
-deploy_local_path: /home/projects/nicely
+deploy_local_path: /home/Code/darfichheuteraus.de
 
 # you will receive LetsEncrypt emails to this address if a domains
 # certificate is about to expire

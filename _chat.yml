@@ -6,17 +6,21 @@
     certbot_email: "{{ admin_email }}"
     matrix_synapse_domain: "{{ chat_matrix_domain }}"
     matrix_synapse_max_upload_size: "{{ chat_upload_size }}"
-    riot_domain: "{{ chat_domain }}"
-    riot_server_name: "{{ chat_title }}"
-    riot_matrix_domain: "{{ matrix_synapse_domain }}"
-    riot_brand: "{{ chat_title }}"
-    riot_welcome_user: "@{{ chat_welcome_user }}:{{ chat_matrix_domain }}"
+    element_domain: "{{ chat_domain }}"
+    element_server_name: "{{ chat_title }}"
+    element_matrix_domain: "{{ matrix_synapse_domain }}"
+    element_brand: "{{ chat_title }}"
+    element_welcome_user: "@{{ chat_welcome_user }}:{{ chat_matrix_domain }}"
 
   roles:
     - name: openssl
       when: env == "production"
       vars:
         openssl_generate_dhparam: true
+
+    - name: ufw
+      vars:
+        ufw_allow_ports: ["80", "443"] # HTTP, HTTPS
 
     - name: certbot
       when: env == "production"
@@ -26,10 +30,10 @@
     - name: certbot
       when: env == "production"
       vars:
-        certbot_domain: "{{ riot_domain }}"
+        certbot_domain: "{{ element_domain }}"
 
     - name: matrix-synapse
-    - name: riot
+    - name: element
 
     - name: nginx
       vars:
@@ -53,5 +57,5 @@
     - name: nginx
       vars:
         nginx_create_static_site: true
-        nginx_domain: "{{ riot_domain }}"
-        nginx_static_site_path: "{{ riot_path }}"
+        nginx_domain: "{{ element_domain }}"
+        nginx_static_site_path: "{{ element_path }}"

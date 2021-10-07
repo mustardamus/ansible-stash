@@ -1,0 +1,25 @@
+- name: download archive
+  get_url:
+    url: "https://github.com/vector-im/element-web/releases/download/v{{ element_version }}/element-v{{ element_version }}.tar.gz"
+    dest: /tmp/element.tar.gz
+
+# TODO check key
+
+- name: extract archive
+  unarchive:
+    src: /tmp/element.tar.gz
+    dest: /tmp
+    remote_src: true
+
+- name: remove previous version
+  file:
+    path: "{{ element_path }}"
+    state: absent
+
+- name: move to destination
+  command: "mv /tmp/element-v{{ element_version }} {{ element_path }}"
+
+- name: copy config file
+  template:
+    src: config.json.j2
+    dest: "{{ element_path }}/config.json"

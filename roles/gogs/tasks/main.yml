@@ -1,0 +1,20 @@
+- name: download archive
+  get_url:
+    url: "https://dl.gogs.io/{{ gogs_version }}/gogs_{{ gogs_version }}_linux_amd64.tar.gz"
+    dest: /tmp/gogs.tar.gz
+
+# TODO check key
+
+- name: extract archive
+  unarchive:
+    src: /tmp/gogs.tar.gz
+    dest: /tmp
+    remote_src: true
+
+- name: remove previous version
+  file:
+    path: "{{ gogs_path }}"
+    state: absent
+
+- name: move to destination
+  command: "mv /tmp/gogs/gogs {{ gogs_path }}"
